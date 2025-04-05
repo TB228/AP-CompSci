@@ -1,0 +1,56 @@
+veg = {
+    'Rainbow Grain Bowl': 'https://www.buzzfeed.com/alisonroman/healthy-rainbow-grain-bowl?utm_term=.ybdpPZOLx#.hieMwQ5qR',
+    'Sautéed Spinach Tacos': 'https://www.buzzfeed.com/jessicamjones/eat-healthy-all-week-for-50-bucks?utm_term=.rvYg9lRwn#.kfNjD4Qq2',
+    'Falafel Waffles': 'https://tasty.co/article/jesseszewczyk/recipes-for-cheap-affordable-vegetarian-dinners#.htjyvXK7Y',
+    'Enchiladas': 'https://tasty.co/article/jesseszewczyk/recipes-for-cheap-affordable-vegetarian-dinners#.htjyvXK7Y',
+    'Veggie Pocket': 'https://www.buzzfeed.com/ariellecalderon/day-7-goodful-healthy-eating-challenge-2018?utm_term=.csN7ak1lP#.kqp5On6l3',
+}
+vegChoices = 'Rainbow Grain Bowl, Sautéed Spinach Tacos, Falafel Waffles, Enchiladas, Veggie Pocket'
+
+quick = {
+    'Chicken Fajitas': 'https://tasty.co/recipe/30-minute-sheet-pan-chicken-fajitas-family-meals', 
+    'Microwave Salmon': 'https://tasty.co/recipe/4-ingredient-microwave-salmon', 
+    'Chicken Tacos': 'https://tasty.co/recipe/shredded-chicken-tacos',
+    'Chickpea Curry': 'https://tasty.co/recipe/one-pot-chickpea-curry',
+}
+quickChoices = 'Chicken Fajitas, Microwave Salmon, Chicken Tacos, Chickpea Curry'
+
+comfort = {
+    'Shrimp Pasta': 'https://tasty.co/recipe/one-pot-lemon-garlic-shrimp-pasta',
+    'Brownies': 'https://tasty.co/recipe/the-best-one-bowl-brownies',
+    'Lemon Chicken': 'https://tasty.co/recipe/creamy-lemon-chicken',
+    'Pot Roast': 'https://tasty.co/recipe/slow-cooker-pot-roast',
+    'Chicken Noodle Soup': 'https://tasty.co/recipe/classic-chicken-noodle-soup',
+}
+comfortChoices = 'Shrimp Pasta, Brownies, Lemon Chicken, Pot Roast, Chicken Noodle Soup'
+
+style = ''
+
+
+def display_recipes(style, choices, recipes):
+    """Handles displaying recipes and user selection."""
+
+    while True:
+        print(f'Here are some {style} recipes you can try: {choices}')
+        choice = input('Which recipe would you like to try? ').strip()
+        if choice in recipes:
+            recipe = recipes[choice]
+            print(f'Here is the link to the recipe: {recipe}')
+            break
+        else:
+            print('Sorry, that recipe is not available.')
+
+# Main program
+print('Welcome to the recipe generator!')
+print('Here are the styles of food you can choose from:')
+
+while style not in ['veg', 'quick', 'comfort']:
+    style = input('What style of food do you want? (veg, quick, comfort) ').strip().lower()
+    if style == 'veg':
+        display_recipes('vegetarian', vegChoices, veg)
+    elif style == 'quick':
+        display_recipes('quick', quickChoices, quick)
+    elif style == 'comfort':
+        display_recipes('comfort', comfortChoices, comfort)
+    else:
+        print('Invalid style. Please try again.')
