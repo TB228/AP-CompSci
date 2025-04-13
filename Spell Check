@@ -1,13 +1,17 @@
+def genKey(word):
+    key = 0
+    for char in word:
+        key += ord(char)
+        key = key % 3000
+    return key
+
 def hashFunc():
     arrangedWords = ['.'] * 3000 # defines max dict size to iterate over
     maxKey = 0
     with open ("Oxford 3000.txt", "r") as list:
         for line in list:
-            key = 0
             line = line.strip().lower()
-            for char in line:
-                key += ord(char)
-                key = key % 3000
+            key = genKey(line)
             if arrangedWords[key] == '.':
                 arrangedWords[key] = [line]
             else: 
@@ -19,25 +23,57 @@ def hashFunc():
         arrangedWords = arrangedWords[:maxKey + 1] # cuts to min size
         return arrangedWords
 
+
 def spellCheck(phrase):
+    arrangedWords = hashFunc() # I call first function here so I can talk about both :D ?
     corrected = ''
-    for word in phrase:
+    words = phrase.split(' ')
+    for word in words:
         found = False
-        key = 0
-        for char in word:
-            key += ord(char)
-            key = key % 3000
-        for psblWord in dict[key]:
+        key = genKey(word)
+        for psblWord in arrangedWords[key]:
             if word == psblWord:
                 corrected += word + ' '
+                found = True
+                break
     
-        if found == False:
-            #check inset, delete, swap, replace, 
+        if not found:
+            alt = []
+            #check insert, delete, swap, replace for misspelled words
+            for i in range(len(word)):                          # insert 
+                for letter in 'abcdefghijklmnopqrstuvwxyz':
+                    newWord = word[:i] + letter + word[i:]
+                    key = genKey(newWord)
+                    if newWord in arrangedWords[key]:
+                        alt.append(newWord)
+
+            for i in range(len(word)):                          # delete
+                newWord = word[:i] + word[i+1:]
+                key = genKey(newWord)
+                if newWord in arrangedWords[key]:
+                    alt.append(newWord)
+
+            for i in range(len(word)-1):                        # swap
+                newWord = word[:i] + word[i+1] + word[i] + word[i+2:]
+                key = genKey(newWord)
+                if newWord in arrangedWords[key]:
+                    alt.append(newWord)
+                    
+            for i in range(len(word)):                          # replace
+                for letter in 'abcdefghijklmnopqrstuvwxyz':
+                    newWord = word[:i] + letter + word[i+1:]
+                    key = genKey(newWord)
+                    if newWord in arrangedWords[key]:
+                        alt.append(newWord)
+
+            corrected += '(' + ' / '.join(alt) + ') '
     
     return corrected
-        
-    
-dict = hashFunc()
+
+
+
 print('Welcome to the spell checker!')
-phrase = input('Inset phrase you would like to spell check:')
-print(spellCheck(phrase))
+print('Please enter a phrase with words separated by spaces (e.g., "hello world").')
+phrase = input('Insert phrase you would like to spell check: ')
+out = spellCheck(phrase)
+print(out)
