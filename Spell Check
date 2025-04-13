@@ -1,0 +1,43 @@
+def hashFunc():
+    arrangedWords = ['.'] * 3000 # defines max dict size to iterate over
+    maxKey = 0
+    with open ("Oxford 3000.txt", "r") as list:
+        for line in list:
+            key = 0
+            line = line.strip().lower()
+            for char in line:
+                key += ord(char)
+                key = key % 3000
+            if arrangedWords[key] == '.':
+                arrangedWords[key] = [line]
+            else: 
+                arrangedWords[key].append(line)
+            
+            if key > maxKey:
+                maxKey = key
+        
+        arrangedWords = arrangedWords[:maxKey + 1] # cuts to min size
+        return arrangedWords
+
+def spellCheck(phrase):
+    corrected = ''
+    for word in phrase:
+        found = False
+        key = 0
+        for char in word:
+            key += ord(char)
+            key = key % 3000
+        for psblWord in dict[key]:
+            if word == psblWord:
+                corrected += word + ' '
+    
+        if found == False:
+            #check inset, delete, swap, replace, 
+    
+    return corrected
+        
+    
+dict = hashFunc()
+print('Welcome to the spell checker!')
+phrase = input('Inset phrase you would like to spell check:')
+print(spellCheck(phrase))
